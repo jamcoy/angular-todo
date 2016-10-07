@@ -13,5 +13,10 @@ angular.module('TodoApp').config(function($routeProvider) {
     .when('/todo', {
         templateUrl: 'templates/todo.html',
         controller: 'TodoController'
+    })
+    .when('/todo/edit/:id', {
+        templateUrl:'templates/edit-todo.html',
+        controller: 'EditTodoController'
     });
+
 });
