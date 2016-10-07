@@ -1,0 +1,22 @@
+{
+  "name": "angular-todo",
+  "description": "AngularJS code institute tutorial",
+  "main": "index.js",
+  "authors": [
+    "jamcoy"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/jamcoy/angular-todo",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "angular": "^1.5.8",
+    "angular-route": "^1.5.8"
+  }
+}
