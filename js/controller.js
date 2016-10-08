@@ -51,6 +51,29 @@ angular.module('RouteControllers', [])
         };
     })
 
+    .controller('LoginController', function($scope, $location, UserAPIService, store) {
+
+        $scope.loginUser = {};
+        var url = "https://morning-castle-91468.herokuapp.com/";
+
+        $scope.submitForm = function() {
+            if ($scope.loginForm.$valid) {
+                console.log("Valid form: ", $scope.user.username, $scope.user.password);
+                $scope.loginUser.username = $scope.user.username;
+                $scope.loginUser.password = $scope.user.password;
+
+                UserAPIService.callAPI(url + "accounts/api-token-auth/", $scope.loginUser).then(function(results) {
+                    $scope.token = results.data.token;
+                    store.set('username', $scope.loginUser.username);
+                    store.set('authToken', $scope.token);
+                    $location.path("/todo");
+                }).catch(function(err) {
+                    console.log("API error: ", err);
+                });
+            }
+        };
+    })
+
     .controller('TodoController', function($scope, $location, TodoAPIService, store) {
         var url = "https://morning-castle-91468.herokuapp.com/";
 
