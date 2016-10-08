@@ -4,74 +4,74 @@ angular.module('RouteControllers', [])
         $scope.title = "Welcome To Angular Todo!";
     })
 
-    .controller('RegisterController', function($scope, UserAPIService, store) {
+    .controller('RegisterController', function($scope, $location, UserAPIService, store) {
 
-        $scope.registrationUser = {};
-        var url = "https://morning-castle-91468.herokuapp.com/";
+        if (store.get('authToken')) {
+            $location.path("/todo");
+        } else {
+            $scope.registrationUser = {};
+            var url = "https://morning-castle-91468.herokuapp.com/";
 
-        /*
-        var authStorage = {
-            name: "StorageTest"
-        };
-
-        store.set('obj', authStorage);
-        */
-
-        $scope.login = function() {
-            UserAPIService.callAPI(url + "accounts/api-token-auth/", $scope.data).then(function(results) {
-                $scope.token = results.data.token;
-                console.log($scope.token); // jcc correction
-            }).catch(function(err) {
-                console.log(err.data);
-            });
-        };
-
-        $scope.submitForm = function() {
-            if ($scope.registrationForm.$valid) {
-                $scope.registrationUser.username = $scope.user.username;
-                $scope.registrationUser.password = $scope.user.password;
-
-                UserAPIService.callAPI(url + "accounts/register/", $scope.registrationUser).then(function(results) {
-                    $scope.data = results.data;
-                    if ($scope.data.username == $scope.registrationUser.username && $scope.data.password == $scope.registrationUser.password){
-                        alert("You have successfully registered to Angular Todo");
-
-                        UserAPIService.callAPI(url + "accounts/api-token-auth/", $scope.data).then(function(results) {
-                            $scope.token = results.data.token;
-                            store.set('username', $scope.registrationUser.username);
-                            store.set('authToken', $scope.token);
-                        }).catch(function(err) {
-                            console.log(err);
-                        });
-                    }
-                }).catch(function(err) {
-                    console.log(err);
+            $scope.login = function () {
+                UserAPIService.callAPI(url + "accounts/api-token-auth/", $scope.data).then(function (results) {
+                    $scope.token = results.data.token;
+                    console.log($scope.token); // jcc correction
+                }).catch(function (err) {
+                    console.log(err.data);
                 });
-            }
-        };
+            };
+
+            $scope.submitForm = function () {
+                if ($scope.registrationForm.$valid) {
+                    $scope.registrationUser.username = $scope.user.username;
+                    $scope.registrationUser.password = $scope.user.password;
+
+                    UserAPIService.callAPI(url + "accounts/register/", $scope.registrationUser).then(function (results) {
+                        $scope.data = results.data;
+                        if ($scope.data.username == $scope.registrationUser.username && $scope.data.password == $scope.registrationUser.password) {
+                            alert("You have successfully registered to Angular Todo");
+
+                            UserAPIService.callAPI(url + "accounts/api-token-auth/", $scope.data).then(function (results) {
+                                $scope.token = results.data.token;
+                                store.set('username', $scope.registrationUser.username);
+                                store.set('authToken', $scope.token);
+                            }).catch(function (err) {
+                                console.log(err);
+                            });
+                        }
+                    }).catch(function (err) {
+                        console.log(err);
+                    });
+                }
+            };
+        }
     })
 
     .controller('LoginController', function($scope, $location, UserAPIService, store) {
 
-        $scope.loginUser = {};
-        var url = "https://morning-castle-91468.herokuapp.com/";
+        if (store.get('authToken')) {
+            $location.path("/todo");
+        } else {
+            $scope.loginUser = {};
+            var url = "https://morning-castle-91468.herokuapp.com/";
 
-        $scope.submitForm = function() {
-            if ($scope.loginForm.$valid) {
-                console.log("Valid form: ", $scope.user.username, $scope.user.password);
-                $scope.loginUser.username = $scope.user.username;
-                $scope.loginUser.password = $scope.user.password;
+            $scope.submitForm = function () {
+                if ($scope.loginForm.$valid) {
+                    console.log("Valid form: ", $scope.user.username, $scope.user.password);
+                    $scope.loginUser.username = $scope.user.username;
+                    $scope.loginUser.password = $scope.user.password;
 
-                UserAPIService.callAPI(url + "accounts/api-token-auth/", $scope.loginUser).then(function(results) {
-                    $scope.token = results.data.token;
-                    store.set('username', $scope.loginUser.username);
-                    store.set('authToken', $scope.token);
-                    $location.path("/todo");
-                }).catch(function(err) {
-                    console.log("API error: ", err);
-                });
-            }
-        };
+                    UserAPIService.callAPI(url + "accounts/api-token-auth/", $scope.loginUser).then(function (results) {
+                        $scope.token = results.data.token;
+                        store.set('username', $scope.loginUser.username);
+                        store.set('authToken', $scope.token);
+                        $location.path("/todo");
+                    }).catch(function (err) {
+                        console.log("API error: ", err);
+                    });
+                }
+            };
+        }
     })
 
     .controller('LogoutController', function(store) {
