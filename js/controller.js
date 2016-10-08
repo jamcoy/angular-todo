@@ -1,7 +1,8 @@
 angular.module('RouteControllers', [])
 
-    .controller('HomeController', function($scope) {
+    .controller('HomeController', function($scope, store) {
         $scope.title = "Welcome To Angular Todo!";
+        $scope.username = store.get('username'); // to provide username on navbar
     })
 
     .controller('RegisterController', function($scope, $location, UserAPIService, store) {
