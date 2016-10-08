@@ -74,6 +74,12 @@ angular.module('RouteControllers', [])
         };
     })
 
+    .controller('LogoutController', function(store) {
+        store.remove('username');
+        store.remove('authToken');
+        console.log("Local store cleared.");
+    })
+
     .controller('TodoController', function($scope, $location, TodoAPIService, store) {
         var url = "https://morning-castle-91468.herokuapp.com/";
 
