@@ -103,9 +103,8 @@ angular.module('RouteControllers', [])
                 if ($scope.todoForm.$valid) {
                     $scope.todo.username = $scope.username;
                     $scope.todos.push($scope.todo);
-
                     TodoAPIService.createTodo(url + "todo/", $scope.todo, $scope.authToken).then(function (results) {
-                        console.log(results);
+                        $('#todo-modal').modal('hide');
                     }).catch(function (err) {
                         console.log(err);
                     });
